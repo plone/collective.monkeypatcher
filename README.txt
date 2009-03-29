@@ -35,3 +35,14 @@ that they actually exist.
 
 If patching happens too soon (or too late), use the 'order' attribute to
 specify a higher (later) or lower (earlier) number. The default is 1000.
+
+If you want to do more than just replace one function with another, you can
+provide your own patcher function via the 'handler' attribute. This should
+be a callable like::
+
+  def apply_patch(scope, original, replacement):
+      ...
+
+Here, 'scope' is the class/module that was specified. 'original' is the string
+name of the function to replace, and 'replacement' is the replacement
+function.

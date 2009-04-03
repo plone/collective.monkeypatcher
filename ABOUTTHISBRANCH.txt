@@ -1,0 +1,19 @@
+=================
+About this branch
+=================
+
+This branch has been built copying version '1.0a2' (rev. #83392) of
+collective.monkeypatcher form the trunk at
+https://svn.plone.org/svn/collective/collective.monkeypatcher/trunk
+
+This branch is an experimental improvement of collective.monkeypatcher. It's
+aimed at adding following features:
+
+* A placeless control panel in the Zope root (as PTS or "Databases") that shows
+  all monkey patches.
+
+* A mention of the monkey patch in the docstring such it shows up in the methods
+  doc in "DocFinderTab".
+
+You love this? Help me to achieve this and `contact me
+<gilles.lenfant@gmail.com>`_.

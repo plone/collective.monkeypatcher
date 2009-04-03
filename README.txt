@@ -46,3 +46,10 @@ be a callable like::
 Here, 'scope' is the class/module that was specified. 'original' is the string
 name of the function to replace, and 'replacement' is the replacement
 function.
+
+You can view a summary of all applied monkey patches from the Zope instance
+control panel.
+
+In addition, if you have `DocDinderTab
+<http://pypi.python.org/pypi/Products.DocFinderTab>`_ installed, the patched
+methods of your objects will be emphasized there.

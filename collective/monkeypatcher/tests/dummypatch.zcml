@@ -1,0 +1,21 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:monkey="http://namespaces.plone.org/monkey"
+   i18n_domain="collective.doesntmatter">
+  
+
+  <include package="collective.monkeypatcher" file="meta.zcml" />
+
+  <monkey:patch
+     class=".dummypatch.Dummy"
+     original="someMethod"
+     replacement=".dummypatch.patchedMethod"
+     />
+
+  <monkey:patch
+     module=".dummypatch"
+     original="someFunction"
+     replacement=".dummypatch.patchedFunction"
+     />
+
+</configure>

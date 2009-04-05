@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0a2'
+version = open(os.path.join('collective','monkeypatcher', 'version.txt')).read().strip()
 
 setup(name='collective.monkeypatcher',
       version=version,

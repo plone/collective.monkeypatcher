@@ -1,0 +1,40 @@
+<h1 tal:replace="structure here/manage_page_header" />
+<h2 tal:replace="structure here/manage_tabs" />
+
+<h3>Monkey Patches</h3>
+
+<p class="form-help">
+Note that we show only monkey patches installed through
+<strong>collective.monkeypatcher</strong>. Other monkey patches may have been
+applied using other tools/methods.
+</p>
+
+<tal:block define="patches here/allPatches">
+ <div tal:condition="patches"
+      tal:repeat="patch patches">
+   <p class="section-bar"
+      tal:content="patch/description">
+     Description of patch
+   </p>
+   <table>
+     <tr class="row-hilite">
+       <th style="text-align: left">Original</th>
+       <td tal:content="patch/original">some.class.or.function</td>
+     </tr>
+     <tr>
+       <th style="text-align: left">Replaced by</th>
+       <td tal:content="patch/replacement">some.other.class.or.function</td>
+     </tr>
+     <tr class="row-hilite">
+       <th style="text-align: left">ZCML</th>
+       <td tal:content="patch/zcml_info">ZCML excerpt</td>
+     </tr>
+   </table>
+ </div>
+
+ <p class="form-help"
+    tal:condition="not: patches">
+   There is actually no registered monkey patch.
+ </p>
+</tal:block>
+<h1 tal:replace="structure here/manage_page_footer" />

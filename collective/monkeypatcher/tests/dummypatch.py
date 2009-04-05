@@ -3,10 +3,10 @@
 """Class, function and patch for test cases"""
 
 class Dummy(object):
-
+    """As said"""
     def someMethod(self):
         """someMethod docstring"""
-        return "original"
+        return"original"
 
 def patchedMethod(self):
     """patchedMethod docstring"""
@@ -21,3 +21,16 @@ def patchedFunction(value):
     """patchedFunction docstring"""
     return value * 2
 
+
+class Foo(object):
+    """As said"""
+    def someFooMethod(self):
+        return "fooMethod result"
+
+
+def patchedFooMethod(self):
+    return "patchedFooMethod result"
+
+def my_appy_patch(scope, original, replacement):
+    setattr(scope, original, replacement)
+    return

@@ -1,8 +1,30 @@
 Changelog
 =========
 
+"controlpanel" branch
+---------------------
+
+* Added "version.txt" that shows up in ZMI. Changes seup.py accordingly.
+  [glenfant]
+
+* Added optional "description" ZCML attr. helpful for our control panel.
+  [glenfant]
+
+* Added optional "warndocstring" ZCML attr. helpful with DocFinderTab See
+  README.txt.
+  [glenfant]
+
+* Added a control panel that shows the applied monkey patches.
+  [glenfant]
+
+* Added unit tests.
+  [glenfant]
+
+* Added doc about new features.
+  [glenfant]
+
+
 1.0b1 - 2009-03-29
 ------------------
 
 * Initial release
-

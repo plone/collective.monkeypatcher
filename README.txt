@@ -1,14 +1,22 @@
+========================
+collective.monkeypatcher
+========================
+
+
 Introduction
 ============
 
 Sometimes, a monkey patch is a necessary evil.
 
-This package makes it easier to apply a monkey patch during Zope startup.
-It uses the ZCML configuration machinery to ensure that patches are loaded
-"late" in the startup cycle, so that the original code has had time to be
-fully initialised and configured. This is similar to using the `initialize()`
-method in a product's __init__.py, except it does not require that the package
-be a full-blown Zope 2 product with a persistent Control_Panel entry.
+This package makes it easier to apply a monkey patch during Zope startup.  It
+uses the ZCML configuration machinery to ensure that patches are loaded "late"
+in the startup cycle, so that the original code has had time to be fully
+initialised and configured. This is similar to using the `initialize()` method
+in a product's __init__.py, except it does not require that the package be a
+full-blown Zope 2 product with a persistent Control_Panel entry.
+
+Applying a monkey patch
+=======================
 
 Here's an example::
 
@@ -30,26 +38,34 @@ Here's an example::
 In this example, we patch Plone's CatalogTool's searchResults() function,
 replacing it with our own version in catalog.py. To patch a module level
 function, you can use 'module' instead of 'class'. The original class and
-function/method name and the replacement symbol will be checked to ensure
-that they actually exist.
+function/method name and the replacement symbol will be checked to ensure that
+they actually exist.
 
-If patching happens too soon (or too late), use the 'order' attribute to
-specify a higher (later) or lower (earlier) number. The default is 1000.
+If patching happens too soon (or too late), use the 'order' attribute to specify
+a higher (later) or lower (earlier) number. The default is 1000.
+
+If you want to emphasize in `DocDinderTab
+<http://pypi.python.org/pypi/Products.DocFinderTab>`_ the monkey patched
+methods, use the optional 'warndocstring' boolean attribute ("false" by
+default).
+
+You may provide some documentation about the patch in the optional 'description'
+attribute.
+
 
 If you want to do more than just replace one function with another, you can
-provide your own patcher function via the 'handler' attribute. This should
-be a callable like::
+provide your own patcher function via the 'handler' attribute. This should be a
+callable like::
 
   def apply_patch(scope, original, replacement):
       ...
 
 Here, 'scope' is the class/module that was specified. 'original' is the string
-name of the function to replace, and 'replacement' is the replacement
-function.
+name of the function to replace, and 'replacement' is the replacement function.
+
+Summary control panel
+=====================
 
 You can view a summary of all applied monkey patches from the Zope instance
 control panel.
 
-In addition, if you have `DocDinderTab
-<http://pypi.python.org/pypi/Products.DocFinderTab>`_ installed, the patched
-methods of your objects will be emphasized there.

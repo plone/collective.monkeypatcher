@@ -1,8 +1,15 @@
 Changelog
 =========
 
+Subversion trunk
+----------------
+
+* Added ZCML attributes "docstringWarning" and "description".
+  [glenfant]
+
 1.0b1 - 2009-03-29
 ------------------
 
 * Initial release
+  [optilude]
 

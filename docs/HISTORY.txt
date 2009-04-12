@@ -7,6 +7,9 @@ Subversion trunk
 * Added ZCML attributes "docstringWarning" and "description".
   [glenfant]
 
+* Added unit tests.
+  [glenfant]
+
 1.0b1 - 2009-03-29
 ------------------
 

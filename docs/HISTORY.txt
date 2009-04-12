@@ -4,6 +4,9 @@ Changelog
 Subversion trunk
 ----------------
 
+* Fires an event when a monkey patch is applied. See interfaces.py.
+  [glenfant]
+
 * Added ZCML attributes "docstringWarning" and "description".
   [glenfant]
 

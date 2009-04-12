@@ -60,3 +60,22 @@ be a callable like::
 
 Here, `scope` is the class/module that was specified. `original` is the string
 name of the function to replace, and `replacement` is the replacement function.
+
+Handlind monkey patches events
+==============================
+
+Applying a monkey patch fires an event. See the `interfaces.py` module. If you
+to handle such event add this ZCML bunch::
+
+  ...
+  <subscriber
+    for="collective.monkeypatcher.interfaces.IMonkeyPatchEvent"
+    handler="my.component.events.myHandler"
+    />
+  ...
+
+And add such Python::
+
+  def myHandler(event):
+      """see collective.monkeypatcher.interfaces.IMonkeyPatchEvent"""
+      ...

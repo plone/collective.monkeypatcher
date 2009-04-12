@@ -1,15 +1,19 @@
+# -*- coding: utf-8 -*-
+# $Id$
+"""ZCML handling, and applying patch"""
+
 import logging
 
-from zope.interface import Interface
-
+from zope.interface import Interface, implements
 from zope.configuration.fields import GlobalObject, PythonIdentifier
 from zope.configuration.exceptions import ConfigurationError
-
 from zope.schema import Int, Bool, Text
+from zope.event import notify
+
+import interfaces
 
 class IMonkeyPatchDirective(Interface):
     """ZCML directive to apply a monkey patch late in the configuration cycle.
-
     This version replaces one object with another.
     """
 
@@ -28,6 +32,8 @@ class IMonkeyPatchDirective(Interface):
 
 def replace(_context, original, replacement, class_=None, module=None, handler=None, preservedoc=True,
             docstringWarning=True, description=u"(No comment)", order=1000):
+    """ZCML directive handler"""
+
     if class_ is None and module is None:
         raise ConfigurationError(u"You must specify 'class' or 'module'")
     if class_ is not None and module is not None:
@@ -62,9 +68,27 @@ def replace(_context, original, replacement, class_=None, module=None, handler=N
         order=order,
         args = (handler, scope, original, replacement, repr(_context.info), description)
         )
+    return
+
+
+class MonkeyPatchEvent(object):
+    """Envent raised when a monkeypatch is applied
+    see interfaces.IMonkeyPatchEvent
+    """
+
+    implements(interfaces.IMonkeyPatchEvent)
+
+    def __init__(self, mp_info):
+        self.mp_info = mp_info
+        return
+
+    def patchInfo(self):
+        return self.mp_info
 
 
 def _do_patch(handler, scope, original, replacement, zcml_info, description):
+    """Apply the monkey patch through preferred method"""
+
     log = logging.getLogger('collective.monkeypatcher')
     log.info("Applying monkey patch to %s : %s" % (scope, original,))
     try:
@@ -77,9 +101,15 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
         'zcml_info': zcml_info,
         'original': org_dotted_name,
         'replacement': '%s.%s' % (replacement.__module__, replacement.__name__)
-            }
+        }
 
+    notify(MonkeyPatchEvent(info))
     handler(scope, original, replacement)
+    return
+
 
 def _default_patch(scope, original, replacement):
+    """Default patch method"""
+
     setattr(scope, original, replacement)
+    return

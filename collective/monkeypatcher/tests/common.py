@@ -9,7 +9,6 @@ from zope.app.testing.placelesssetup import PlacelessSetup
 from zope.configuration.xmlconfig import XMLConfig
 
 import collective.monkeypatcher
-import collective.monkeypatcher.tests
 
 
 class MonkeypatcherTestCase(PlacelessSetup, unittest.TestCase):

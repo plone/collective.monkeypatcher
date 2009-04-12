@@ -15,6 +15,3 @@ class IMonkeyPatchEvent(Interface):
         * 'replacement': Dotted name of the new function
         """
         pass
-
-
-

@@ -1,5 +1,5 @@
 # -*- coding: utf-8
-# $Id: dummypatch.py 83837 2009-04-05 16:09:43Z glenfant $
+# $Id$
 """Class, function and patch for test cases"""
 
 class Dummy(object):

@@ -1,5 +1,5 @@
 # -*- coding: utf-8
-# $Id: common.py 83837 2009-04-05 16:09:43Z glenfant $
+# $Id$
 """Common resources for unit testing"""
 
 import unittest

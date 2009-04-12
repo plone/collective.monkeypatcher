@@ -1,5 +1,5 @@
 # -*- coding: utf-8
-# $Id: test_monkeypatcher.py 83837 2009-04-05 16:09:43Z glenfant $
+# $Id$
 import common
 import dummypatch
 from collective.monkeypatcher.interfaces import IMonkeyPatchEvent

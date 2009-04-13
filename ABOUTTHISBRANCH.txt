@@ -2,6 +2,10 @@
 About this branch
 =================
 
+DEPRECATED: You should use collective.monkeypatcher plus
+collective.monkeypatcherpanel.
+
+
 This branch has been built copying version '1.0a2' (rev. #83392) of
 collective.monkeypatcher form the trunk at
 https://svn.plone.org/svn/collective/collective.monkeypatcher/trunk

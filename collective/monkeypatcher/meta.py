@@ -79,11 +79,8 @@ class MonkeyPatchEvent(object):
     implements(interfaces.IMonkeyPatchEvent)
 
     def __init__(self, mp_info):
-        self.mp_info = mp_info
+        self.patch_info = mp_info
         return
-
-    def patchInfo(self):
-        return self.mp_info
 
 
 def _do_patch(handler, scope, original, replacement, zcml_info, description):

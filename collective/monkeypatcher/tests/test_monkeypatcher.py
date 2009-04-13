@@ -1,5 +1,7 @@
 # -*- coding: utf-8
 # $Id$
+"""Test cases"""
+
 import common
 import dummypatch
 from collective.monkeypatcher.interfaces import IMonkeyPatchEvent
@@ -42,9 +44,16 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         """Do we notify ?"""
 
         events = dummypatch.all_patches
+        expected_keys = set(('description', 'original', 'replacement', 'zcml_info'))
         self.failUnlessEqual(len(events), 3)
         for event in events:
+
+            # Interface conformance
             self.failUnless(IMonkeyPatchEvent.providedBy(event))
+
+            # Checking available infos
+            info_keys = set(event.patch_info.keys())
+            self.failUnlessEqual(info_keys, expected_keys)
         return
 
 

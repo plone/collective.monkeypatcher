@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.0b2 - unreleased
+------------------
+
+* Check if the docstring exists before changing it
+  [jfroche]
+
+* Add buildout.cfg for test & test coverage
+  [jfroche]
+
 1.0b1 - 2009-04-17
 ------------------
 

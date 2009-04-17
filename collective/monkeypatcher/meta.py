@@ -12,6 +12,7 @@ from zope.event import notify
 
 import interfaces
 
+
 class IMonkeyPatchDirective(Interface):
     """ZCML directive to apply a monkey patch late in the configuration cycle.
     This version replaces one object with another.
@@ -68,8 +69,7 @@ def replace(_context, original, replacement, class_=None, module=None, handler=N
         discriminator = None,
         callable = _do_patch,
         order=order,
-        args = (handler, scope, original, replacement, repr(_context.info), description)
-        )
+        args = (handler, scope, original, replacement, repr(_context.info), description))
     return
 
 
@@ -89,7 +89,7 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
     """Apply the monkey patch through preferred method"""
 
     log = logging.getLogger('collective.monkeypatcher')
-    log.info("Applying monkey patch to %s : %s" % (scope, original,))
+    log.info("Applying monkey patch to %s : %s" % (scope, original))
     try:
         org_dotted_name = '%s.%s.%s' %(scope.__module__, scope.__name__, original)
     except AttributeError, e:
@@ -99,8 +99,7 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
         'description': description,
         'zcml_info': zcml_info,
         'original': org_dotted_name,
-        'replacement': '%s.%s' % (replacement.__module__, replacement.__name__)
-        }
+        'replacement': '%s.%s' % (replacement.__module__, replacement.__name__)}
 
     notify(MonkeyPatchEvent(info))
     handler(scope, original, replacement)

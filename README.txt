@@ -22,7 +22,7 @@ Here's an example::
     <configure
         xmlns="http://namespaces.zope.org/zope"
         xmlns:monkey="http://namespaces.plone.org/monkey"
-        i18n_domain="collective.rooter">
+        i18n_domain="collective.monkeypatcher">
 
         <include package="collective.monkeypatcher" file="meta.zcml" />
     

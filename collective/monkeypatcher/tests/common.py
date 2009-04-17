@@ -5,6 +5,7 @@
 import unittest
 
 import zope.component
+import zope.security
 from zope.app.testing.placelesssetup import PlacelessSetup
 from zope.configuration.xmlconfig import XMLConfig
 
@@ -16,6 +17,7 @@ class MonkeypatcherTestCase(PlacelessSetup, unittest.TestCase):
 
     def setUp(self):
         XMLConfig('meta.zcml', zope.component)()
+        XMLConfig('meta.zcml', zope.security)()
         XMLConfig('meta.zcml', collective.monkeypatcher)()
         XMLConfig('configure.zcml', collective.monkeypatcher)()
         XMLConfig('dummypatch.zcml', collective.monkeypatcher.tests)()

@@ -12,6 +12,19 @@
      docstringWarning="false"
      />
 
+  <permission
+    id="cmf.ManagePortal"
+    title="Manage portal"
+    />
+
+  <monkey:patch
+     class=".dummypatch.Dummy"
+     original="someMethodWithPerm"
+     replacement=".dummypatch.patchedMethodWithRoles"
+     docstringWarning="false"
+     permission="cmf.ManagePortal"
+     />
+
   <monkey:patch
      description="This is the reason of this monkey patch"
      module=".dummypatch"

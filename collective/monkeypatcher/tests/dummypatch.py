@@ -8,9 +8,16 @@ class Dummy(object):
         """someMethod docstring"""
         return"original"
 
+    def someMethodWithPerm(self):
+        return "original"
+
 def patchedMethod(self):
     """patchedMethod docstring"""
     return "patched"
+
+def patchedMethodWithRoles(self):
+    """patchedMethod with roles docstring"""
+    return "patched too"
 
 
 def someFunction(value):

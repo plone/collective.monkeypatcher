@@ -33,6 +33,12 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         self.failUnless(docstring.endswith("'collective.monkeypatcher.tests.dummypatch.patchedFunction'"))
         return
 
+    def test_patchedFunctionWithRole(self):
+        ob = dummypatch.Dummy()
+        permission = getattr(ob, "someMethodWithPerm__roles__", None)
+        self.failUnless(permission)
+        self.failUnlessEqual(permission.__name__, 'Manage portal')
+
     def test_patchWithHandler(self):
         """Patch applied with personal handler"""
 
@@ -45,7 +51,7 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
 
         events = dummypatch.all_patches
         expected_keys = set(('description', 'original', 'replacement', 'zcml_info'))
-        self.failUnlessEqual(len(events), 3)
+        self.failUnlessEqual(len(events), 4)
         for event in events:
 
             # Interface conformance

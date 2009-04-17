@@ -9,7 +9,10 @@ from zope.configuration.fields import GlobalObject, PythonIdentifier
 from zope.configuration.exceptions import ConfigurationError
 from zope.schema import Int, Bool, Text
 from zope.event import notify
+from zope.component import getUtility
+from zope.security.interfaces import IPermission
 
+from AccessControl.PermissionRole import PermissionRole
 import interfaces
 
 
@@ -29,10 +32,12 @@ class IMonkeyPatchDirective(Interface):
     docstringWarning = Bool(title=u"Add monkey patch warning in docstring", required=False, default=True)
     description = Text(title=u'Some comments about your monkey patch', required=False, default=u"(No comment)")
     order = Int(title=u"Execution order", required=False, default=1000)
+    permission = Text(title=u"Permission", required=False)
 
 
 def replace(_context, original, replacement, class_=None, module=None, handler=None, preservedoc=True,
-            docstringWarning=True, description=u"(No comment)", order=1000):
+            docstringWarning=True, description=u"(No comment)", order=1000,
+            permission=None):
     """ZCML directive handler"""
 
     if class_ is None and module is None:
@@ -69,7 +74,7 @@ def replace(_context, original, replacement, class_=None, module=None, handler=N
         discriminator = None,
         callable = _do_patch,
         order=order,
-        args = (handler, scope, original, replacement, repr(_context.info), description))
+        args = (handler, scope, original, replacement, repr(_context.info), description, permission))
     return
 
 
@@ -85,7 +90,8 @@ class MonkeyPatchEvent(object):
         return
 
 
-def _do_patch(handler, scope, original, replacement, zcml_info, description):
+def _do_patch(handler, scope, original, replacement, zcml_info, description,
+              permission_id):
     """Apply the monkey patch through preferred method"""
 
     log = logging.getLogger('collective.monkeypatcher')
@@ -103,6 +109,12 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
 
     notify(MonkeyPatchEvent(info))
     handler(scope, original, replacement)
+
+    if permission_id:
+        org_dotted_name = '%s__roles__' % original
+        permission = getUtility(IPermission, name=permission_id)
+        replacement = PermissionRole(str(permission.title))
+        handler(scope, org_dotted_name, replacement)
     return
 
 

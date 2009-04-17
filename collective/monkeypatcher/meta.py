@@ -55,6 +55,8 @@ def replace(_context, original, replacement, class_=None, module=None, handler=N
     if docstringWarning:
         try:
             patch_warning = "\n**Monkey patched by** '%s.%s'" % (replacement.__module__, replacement.__name__)
+            if replacement.__doc__ is None:
+                replacement.__doc__ = ''
             replacement.__doc__ += patch_warning
         except AttributeError:
             pass

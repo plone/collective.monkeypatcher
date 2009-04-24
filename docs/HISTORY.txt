@@ -4,6 +4,9 @@ Changelog
 1.0b2 - unreleased
 ------------------
 
+* Add the possibility to ignore the error if the orginal function isn't present on the class/module being patched
+  [jfroche]
+
 * Check if the docstring exists before changing it
   [jfroche]
 

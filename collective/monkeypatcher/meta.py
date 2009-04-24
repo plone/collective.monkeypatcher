@@ -26,13 +26,15 @@ class IMonkeyPatchDirective(Interface):
     original = PythonIdentifier(title=u"Method or function to replace")
     replacement = GlobalObject(title=u"Method to function to replace with")
     preservedoc = Bool(title=u"Preserve docstrings?", required=False, default=True)
+    ignoreOriginal = Bool(title=u"Ignore if the orginal function isn't present on the class/module being patched",
+                          default=False)
     docstringWarning = Bool(title=u"Add monkey patch warning in docstring", required=False, default=True)
     description = Text(title=u'Some comments about your monkey patch', required=False, default=u"(No comment)")
     order = Int(title=u"Execution order", required=False, default=1000)
 
 
 def replace(_context, original, replacement, class_=None, module=None, handler=None, preservedoc=True,
-            docstringWarning=True, description=u"(No comment)", order=1000):
+            docstringWarning=True, description=u"(No comment)", order=1000, ignoreOriginal=False):
     """ZCML directive handler"""
 
     if class_ is None and module is None:
@@ -44,7 +46,7 @@ def replace(_context, original, replacement, class_=None, module=None, handler=N
 
     to_be_replaced = getattr(scope, original, None)
 
-    if to_be_replaced is None:
+    if to_be_replaced is None and not ignoreOriginal:
         raise ConfigurationError("Original %s in %s not found" % (original, str(scope)))
 
     if preservedoc:

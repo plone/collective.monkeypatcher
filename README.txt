@@ -24,7 +24,7 @@ Here's an example::
         xmlns:monkey="http://namespaces.plone.org/monkey"
         i18n_domain="collective.monkeypatcher">
 
-        <include package="collective.monkeypatcher" file="meta.zcml" />
+        <include package="collective.monkeypatcher" />
     
         <monkey:patch
             description="This works around issue http://some.tracker.tld/ticket/123"
@@ -44,9 +44,9 @@ that they actually exist.
 If patching happens too soon (or too late), use the `order` attribute to
 specify a higher (later) or lower (earlier) number. The default is 1000.
 
-By default, `DocDinderTab <http://pypi.python.org/pypi/Products.DocFinderTab>`_
+By default, `DocFinderTab <http://pypi.python.org/pypi/Products.DocFinderTab>`_
 and other TTW API browsers will emphasize the monkey patched methods/functions,
-appending the docstring with "Monkey patched with 'my.monkeypatche.function'".
+appending the docstring with "Monkey patched with 'my.monkeypatched.function'".
 If you don't want this, you could set the `docstringWarning` attribute to
 `false`.
 
@@ -61,7 +61,7 @@ be a callable like::
 Here, `scope` is the class/module that was specified. `original` is the string
 name of the function to replace, and `replacement` is the replacement function.
 
-Handlind monkey patches events
+Handling monkey patches events
 ==============================
 
 Applying a monkey patch fires an event. See the `interfaces.py` module. If you

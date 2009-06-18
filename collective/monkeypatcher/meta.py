@@ -89,13 +89,19 @@ class MonkeyPatchEvent(object):
 
 def _do_patch(handler, scope, original, replacement, zcml_info, description):
     """Apply the monkey patch through preferred method"""
-
-    log = logging.getLogger('collective.monkeypatcher')
-    log.info("Applying monkey patch to %s : %s" % (scope, original))
+    
     try:
-        org_dotted_name = '%s.%s.%s' %(scope.__module__, scope.__name__, original)
+        org_dotted_name = '%s.%s.%s' % (scope.__module__, scope.__name__, original)
     except AttributeError, e:
         org_dotted_name = '%s.%s' % (scope.__name__, original)
+
+    try:
+        new_dotted_name = "%s.%s" % (replacement.__module__, replacement.__name__)
+    except AttributeError, e:
+        new_dotted_name = "a custom handler: %s" % handler
+
+    log = logging.getLogger('collective.monkeypatcher')
+    log.info("Monkey patching %s with %s" % (org_dotted_name, new_dotted_name,))
 
     info = {
         'description': description,

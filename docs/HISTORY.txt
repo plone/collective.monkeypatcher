@@ -1,7 +1,18 @@
 Changelog
 =========
 
-1.0b2 - unreleased
+1.0b3 - Unreleased
+------------------
+
+* Added new parameter preconditions that only patches if preconditions are met
+  like version of a specific package.
+  [spamsch]
+
+* Added new parameter preserveOriginal. Setting this to true makes it possible
+  to access the patched method via _old_``name of patched method``
+  [spamsch]
+
+1.0b2 - 2009-06-18
 ------------------
 
 * Add the possibility to ignore the error if the orginal function isn't present on the class/module being patched

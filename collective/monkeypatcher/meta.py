@@ -2,6 +2,8 @@
 # $Id$
 """ZCML handling, and applying patch"""
 
+import re
+import pkg_resources
 import logging
 
 from zope.interface import Interface, implements
@@ -12,6 +14,7 @@ from zope.event import notify
 
 import interfaces
 
+log = logging.getLogger('collective.monkeypatcher')
 
 class IMonkeyPatchDirective(Interface):
     """ZCML directive to apply a monkey patch late in the configuration cycle.
@@ -26,6 +29,10 @@ class IMonkeyPatchDirective(Interface):
     original = PythonIdentifier(title=u"Method or function to replace")
     replacement = GlobalObject(title=u"Method to function to replace with")
     preservedoc = Bool(title=u"Preserve docstrings?", required=False, default=True)
+    preserveOriginal = Bool(title=u'Preserve the original function so that it is reachable view prefix _old_. Only works for def handler.',
+                            default=False, required=False)
+    preconditions = Text(title=u'Preconditions (multiple, separated by space) to be satisified before applying this patch. Example: Products.LinguaPlone<=1.4.3',
+                            required=False, default=u'')
     ignoreOriginal = Bool(title=u"Ignore if the orginal function isn't present on the class/module being patched",
                           default=False)
     docstringWarning = Bool(title=u"Add monkey patch warning in docstring", required=False, default=True)
@@ -34,7 +41,8 @@ class IMonkeyPatchDirective(Interface):
 
 
 def replace(_context, original, replacement, class_=None, module=None, handler=None, preservedoc=True,
-            docstringWarning=True, description=u"(No comment)", order=1000, ignoreOriginal=False):
+            docstringWarning=True, description=u"(No comment)", order=1000, ignoreOriginal=False, 
+            preserveOriginal=False, preconditions=u''):
     """ZCML directive handler"""
 
     if class_ is None and module is None:
@@ -64,8 +72,17 @@ def replace(_context, original, replacement, class_=None, module=None, handler=N
         except AttributeError:
             pass
 
+    # check version
+    if preconditions != u'':
+        if not _preconditions_matching(preconditions):
+            log.info('Preconditions for patching scope %s not met (%s)!' % (scope, preconditions))
+            return # fail silently
+
     if handler is None:
         handler = _default_patch
+
+        if preserveOriginal is True:
+            handler = _default_preserve_handler
 
     _context.action(
         discriminator = None,
@@ -74,6 +91,39 @@ def replace(_context, original, replacement, class_=None, module=None, handler=N
         args = (handler, scope, original, replacement, repr(_context.info), description))
     return
 
+def _preconditions_matching(preconditions):
+    """ Returns True if preconditions matching """
+
+    matcher_r = re.compile(r'^(.*?)([-+!=]+)(.*)$', re.DOTALL | re.IGNORECASE | re.MULTILINE)
+    version_r = re.compile(r'^([0-9]+)\.([0-9]+)\.?([0-9]?).*$', re.IGNORECASE | re.MULTILINE)
+    ev = pkg_resources.Environment()
+
+    # split all preconds
+    for precond in preconditions.split():
+        _p = precond.strip()
+        package, op, version = matcher_r.search(_p).groups()
+
+        # first try to get package - if not found fail silently
+        dp = ev[package.strip()]
+        if not dp:
+            return True
+
+        # fill versions - we assume having s/th like
+        # 1.2.3a2 or 1.2a1 or 1.2.0 - look at regexp
+        p_v = map(int, filter(lambda x:x and int(x) or 0, version_r.search(version).groups()))
+        p_i = map(int, filter(lambda y:y and int(y) or 0, version_r.search(dp[0].version).groups()))
+
+        if not p_v or not p_i:
+            log.error('Could not patch because version not recognized. Wanted: %s, Installed: %s' % (p_v, p_i))
+            return False
+
+        # compare operators - dumb if check - could be better
+        if op == '-=': return p_v >= p_i
+        if op == '+=': return p_v <= p_i
+        if op == '!=': return p_v != p_i
+        if op in ['=', '==']: return p_v == p_i
+
+        raise Exception, 'Unknown operator %s' % op
 
 class MonkeyPatchEvent(object):
     """Envent raised when a monkeypatch is applied
@@ -100,7 +150,6 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
     except AttributeError, e:
         new_dotted_name = "a custom handler: %s" % handler
 
-    log = logging.getLogger('collective.monkeypatcher')
     log.info("Monkey patching %s with %s" % (org_dotted_name, new_dotted_name,))
 
     info = {
@@ -119,3 +168,15 @@ def _default_patch(scope, original, replacement):
 
     setattr(scope, original, replacement)
     return
+
+def _default_preserve_handler(scope, original, replacement):
+    """ Default handler that preserves original method """
+
+    OLD_NAME = '_old_%s' % original 
+
+    if not hasattr(scope, OLD_NAME):
+        setattr(scope, OLD_NAME, getattr(scope, original))
+
+    setattr(scope, original, replacement)
+    return
+

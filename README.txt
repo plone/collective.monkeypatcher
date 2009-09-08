@@ -50,7 +50,6 @@ appending the docstring with "Monkey patched with 'my.monkeypatched.function'".
 If you don't want this, you could set the `docstringWarning` attribute to
 `false`.
 
-
 If you want to do more than just replace one function with another, you can
 provide your own patcher function via the `handler` attribute. This should
 be a callable like::
@@ -60,6 +59,21 @@ be a callable like::
 
 Here, `scope` is the class/module that was specified. `original` is the string
 name of the function to replace, and `replacement` is the replacement function.
+
+Full list of options:
+
+- ``class``  The class being patched
+- ``module`` The module being patched
+- ``handler`` A function to perform the patching. Must take three parameters: class/module, original (string), and replacement
+- ``original`` Method or function to replace
+- ``replacement`` Method to function to replace with
+- ``preservedoc`` Preserve docstrings?
+- ``preserveOriginal`` Preserve the original function so that it is reachable view prefix _old_. Only works for default handler
+- ``preconditions`` Preconditions (multiple, separated by space) to be satisified before applying this patch. Example: Products.LinguaPlone-=1.4.3 or Products.TextIndexNG3+=3.3.0
+- ``ignoreOriginal`` Ignore if the orginal function isn't present on the class/module being patched
+- ``docstringWarning``  Add monkey patch warning in docstring
+- ``description``  Some comments about your monkey patch
+- ``order`` Execution order
 
 Handling monkey patches events
 ==============================
@@ -79,3 +93,4 @@ And add such Python::
   def myHandler(event):
       """see collective.monkeypatcher.interfaces.IMonkeyPatchEvent"""
       ...
+

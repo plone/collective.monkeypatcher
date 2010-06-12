@@ -1,11 +1,10 @@
 # -*- coding: utf-8
-# $Id$
 """Common resources for unit testing"""
 
 import unittest
 
 import zope.component
-from zope.app.testing.placelesssetup import PlacelessSetup
+from zope.component.testing import PlacelessSetup
 from zope.configuration.xmlconfig import XMLConfig
 
 import collective.monkeypatcher

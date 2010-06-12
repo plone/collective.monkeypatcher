@@ -4,6 +4,9 @@ Changelog
 1.0b3 - Unreleased
 ------------------
 
+* Avoid a zope.app dependency.
+  [hannosch]
+
 * Added new parameter preconditions that only patches if preconditions are met
   like version of a specific package.
   [spamsch]

@@ -15,7 +15,8 @@ Changelog
 1.0b2 - 2009-06-18
 ------------------
 
-* Add the possibility to ignore the error if the orginal function isn't present on the class/module being patched
+* Add the possibility to ignore the error if the original function isn't
+  present on the class/module being patched
   [jfroche]
 
 * Check if the docstring exists before changing it
@@ -41,4 +42,3 @@ Changelog
 
 * Initial release
   [optilude]
-

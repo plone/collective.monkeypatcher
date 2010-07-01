@@ -10,9 +10,7 @@ setup(name='collective.monkeypatcher',
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
-        "Framework :: Zope2 :: Zope3",
         "Programming Language :: Python",
-        "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='zope monkey patch',
       author='Martin Aspeli',

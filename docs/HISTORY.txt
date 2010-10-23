@@ -4,6 +4,8 @@ Changelog
 1.0.1 - unreleased
 ------------------
 
+* Downgrade standard log message to debug level.
+  [hannosch]
 
 1.0 - 2010-07-01
 ----------------

@@ -150,7 +150,7 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
     except AttributeError, e:
         new_dotted_name = "a custom handler: %s" % handler
 
-    log.info("Monkey patching %s with %s" % (org_dotted_name, new_dotted_name,))
+    log.debug("Monkey patching %s with %s" % (org_dotted_name, new_dotted_name,))
 
     info = {
         'description': description,

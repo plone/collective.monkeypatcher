@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# $Id$
+# $Id: meta.py 146856 2010-10-23 21:36:39Z hannosch $
 """ZCML handling, and applying patch"""
 
 import re
@@ -35,6 +35,8 @@ class IMonkeyPatchDirective(Interface):
                             required=False, default=u'')
     ignoreOriginal = Bool(title=u"Ignore if the orginal function isn't present on the class/module being patched",
                           default=False)
+    addOnly = Bool(title=u'When using "ignoreOriginal", do not patch if the original function is already present in the class/module',
+                          default=False)
     docstringWarning = Bool(title=u"Add monkey patch warning in docstring", required=False, default=True)
     description = Text(title=u'Some comments about your monkey patch', required=False, default=u"(No comment)")
     order = Int(title=u"Execution order", required=False, default=1000)
@@ -42,7 +44,7 @@ class IMonkeyPatchDirective(Interface):
 
 def replace(_context, original, replacement, class_=None, module=None, handler=None, preservedoc=True,
             docstringWarning=True, description=u"(No comment)", order=1000, ignoreOriginal=False, 
-            preserveOriginal=False, preconditions=u''):
+            preserveOriginal=False, preconditions=u'', addOnly=False):
     """ZCML directive handler"""
 
     if class_ is None and module is None:
@@ -56,6 +58,10 @@ def replace(_context, original, replacement, class_=None, module=None, handler=N
 
     if to_be_replaced is None and not ignoreOriginal:
         raise ConfigurationError("Original %s in %s not found" % (original, str(scope)))
+
+    if to_be_replaced is None and addOnly:
+        # fail silently as we want to patch only existings classes/modules
+        return
 
     if preservedoc:
         try:

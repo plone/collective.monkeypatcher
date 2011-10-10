@@ -71,6 +71,7 @@ Full list of options:
 - ``preserveOriginal`` Preserve the original function so that it is reachable view prefix _old_. Only works for default handler
 - ``preconditions`` Preconditions (multiple, separated by space) to be satisified before applying this patch. Example: Products.LinguaPlone-=1.4.3 or Products.TextIndexNG3+=3.3.0
 - ``ignoreOriginal`` Ignore if the orginal function isn't present on the class/module being patched
+- ``addOnly`` If using the "ignoreOriginal" above, choose to apply the patch only if the patch target not exists 
 - ``docstringWarning``  Add monkey patch warning in docstring
 - ``description``  Some comments about your monkey patch
 - ``order`` Execution order

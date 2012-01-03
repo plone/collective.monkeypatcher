@@ -41,7 +41,7 @@ class IMonkeyPatchDirective(Interface):
 
 
 def replace(_context, original, replacement, class_=None, module=None, handler=None, preservedoc=True,
-            docstringWarning=True, description=u"(No comment)", order=1000, ignoreOriginal=False, 
+            docstringWarning=True, description=u"(No comment)", order=1000, ignoreOriginal=False,
             preserveOriginal=False, preconditions=u''):
     """ZCML directive handler"""
 
@@ -139,7 +139,7 @@ class MonkeyPatchEvent(object):
 
 def _do_patch(handler, scope, original, replacement, zcml_info, description):
     """Apply the monkey patch through preferred method"""
-    
+
     try:
         org_dotted_name = '%s.%s.%s' % (scope.__module__, scope.__name__, original)
     except AttributeError, e:
@@ -172,7 +172,7 @@ def _default_patch(scope, original, replacement):
 def _default_preserve_handler(scope, original, replacement):
     """ Default handler that preserves original method """
 
-    OLD_NAME = '_old_%s' % original 
+    OLD_NAME = '_old_%s' % original
 
     if not hasattr(scope, OLD_NAME):
         setattr(scope, OLD_NAME, getattr(scope, original))

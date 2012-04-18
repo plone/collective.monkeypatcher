@@ -65,7 +65,7 @@ def replace(_context, original, replacement, class_=None, module=None, handler=N
 
     if docstringWarning:
         try:
-            patch_warning = "\n**Monkey patched by** '%s.%s'" % (replacement.__module__, replacement.__name__)
+            patch_warning = "\n**Monkey patched by** '%s.%s'" % (getattr(replacement, '__module__', ''), replacement.__name__)
             if replacement.__doc__ is None:
                 replacement.__doc__ = ''
             replacement.__doc__ += patch_warning
@@ -146,7 +146,7 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
         org_dotted_name = '%s.%s' % (scope.__name__, original)
 
     try:
-        new_dotted_name = "%s.%s" % (replacement.__module__, replacement.__name__)
+        new_dotted_name = "%s.%s" % (getattr(replacement, '__module__', ''), replacement.__name__)
     except AttributeError, e:
         new_dotted_name = "a custom handler: %s" % handler
 
@@ -156,7 +156,7 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
         'description': description,
         'zcml_info': zcml_info,
         'original': org_dotted_name,
-        'replacement': '%s.%s' % (replacement.__module__, replacement.__name__)}
+        'replacement': '%s.%s' % (getattr(replacement, '__module__', ''), replacement.__name__)}
 
     notify(MonkeyPatchEvent(info))
     handler(scope, original, replacement)

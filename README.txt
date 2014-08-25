@@ -25,7 +25,7 @@ Here's an example::
         i18n_domain="collective.monkeypatcher">
 
         <include package="collective.monkeypatcher" />
-    
+
         <monkey:patch
             description="This works around issue http://some.tracker.tld/ticket/123"
             class="Products.CMFPlone.CatalogTool.CatalogTool"

@@ -40,12 +40,19 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         self.failUnlessEqual(ob.someFooMethod(), "patchedFooMethod result")
         return
 
+    def test_patchWithBuiltin(self):
+        """see https://github.com/plone/collective.monkeypatcher/pull/2
+        """
+        ob = dummypatch.Foo()
+        self.failUnlessEqual(ob.config, (1, 2))
+        return
+
     def test_monkeyPatchEvent(self):
         """Do we notify ?"""
 
         events = dummypatch.all_patches
         expected_keys = set(('description', 'original', 'replacement', 'zcml_info'))
-        self.failUnlessEqual(len(events), 3)
+        self.failUnlessEqual(len(events), 4)
         for event in events:
 
             # Interface conformance

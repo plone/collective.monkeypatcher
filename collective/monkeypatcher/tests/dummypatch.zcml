@@ -27,6 +27,12 @@
      docstringWarning="false"
      />
 
+  <monkey:patch
+     class=".dummypatch.Foo"
+     original="config"
+     replacement=".dummypatch.patchedAttribute"
+     />
+
   <subscriber
      for="collective.monkeypatcher.interfaces.IMonkeyPatchEvent"
      handler=".dummypatch.monkeyPatchHandler" />

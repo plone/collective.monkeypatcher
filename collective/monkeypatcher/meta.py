@@ -85,10 +85,10 @@ def replace(_context, original, replacement, class_=None, module=None, handler=N
             handler = _default_preserve_handler
 
     _context.action(
-        discriminator = None,
-        callable = _do_patch,
+        discriminator=None,
+        callable=_do_patch,
         order=order,
-        args = (handler, scope, original, replacement, repr(_context.info), description))
+        args=(handler, scope, original, replacement, repr(_context.info), description))
     return
 
 def _preconditions_matching(preconditions):
@@ -148,15 +148,20 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
     try:
         new_dotted_name = "%s.%s" % (getattr(replacement, '__module__', ''), replacement.__name__)
     except AttributeError, e:
-        new_dotted_name = "a custom handler: %s" % handler
+        # builtins don't have __module__ and __name__
+        new_dotted_name = str(replacement)
 
-    log.debug("Monkey patching %s with %s" % (org_dotted_name, new_dotted_name,))
+    handler_info = ''
+    if handler != _default_patch:
+        handler_info = " using custom handler %s" % handler
+
+    log.debug("Monkey patching %s with %s" % (org_dotted_name, new_dotted_name,) + handler_info)
 
     info = {
         'description': description,
         'zcml_info': zcml_info,
         'original': org_dotted_name,
-        'replacement': '%s.%s' % (getattr(replacement, '__module__', ''), replacement.__name__)}
+        'replacement': new_dotted_name}
 
     notify(MonkeyPatchEvent(info))
     handler(scope, original, replacement)

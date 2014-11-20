@@ -4,6 +4,7 @@
 
 class Dummy(object):
     """As said"""
+
     def someMethod(self):
         """someMethod docstring"""
         return"original"
@@ -24,6 +25,9 @@ def patchedFunction(value):
 
 class Foo(object):
     """As said"""
+
+    config = (1, 2, 3)
+
     def someFooMethod(self):
         return "fooMethod result"
 
@@ -35,6 +39,7 @@ def my_appy_patch(scope, original, replacement):
     setattr(scope, original, replacement)
     return
 
+patchedAttribute = (1, 2)
 
 all_patches = []
 

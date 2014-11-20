@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# $Id$
 """Public interfaces"""
+
 from zope.interface import Interface
 from zope.schema import Dict
 

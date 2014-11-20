@@ -1,10 +1,11 @@
 # -*- coding: utf-8
-# $Id$
 """Test cases"""
+
+from collective.monkeypatcher.interfaces import IMonkeyPatchEvent
 
 import common
 import dummypatch
-from collective.monkeypatcher.interfaces import IMonkeyPatchEvent
+
 
 class TestMonkeyPatcher(common.MonkeypatcherTestCase):
     """We test all in this class"""
@@ -30,7 +31,8 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         # Testing docstring monkeypatch note
         docstring = dummypatch.someFunction.__doc__
         self.failUnless(docstring.startswith("someFunction docstring"))
-        self.failUnless(docstring.endswith("'collective.monkeypatcher.tests.dummypatch.patchedFunction'"))
+        self.failUnless(docstring.endswith(
+            "'collective.monkeypatcher.tests.dummypatch.patchedFunction'"))
         return
 
     def test_patchWithHandler(self):
@@ -51,7 +53,8 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         """Do we notify ?"""
 
         events = dummypatch.all_patches
-        expected_keys = set(('description', 'original', 'replacement', 'zcml_info'))
+        expected_keys = set(
+            ('description', 'original', 'replacement', 'zcml_info'))
         self.failUnlessEqual(len(events), 4)
         for event in events:
 

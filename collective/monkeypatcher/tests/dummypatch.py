@@ -1,6 +1,6 @@
 # -*- coding: utf-8
-# $Id$
 """Class, function and patch for test cases"""
+
 
 class Dummy(object):
     """As said"""
@@ -8,6 +8,7 @@ class Dummy(object):
     def someMethod(self):
         """someMethod docstring"""
         return"original"
+
 
 def patchedMethod(self):
     """patchedMethod docstring"""
@@ -17,6 +18,7 @@ def patchedMethod(self):
 def someFunction(value):
     """someFunction docstring"""
     return value
+
 
 def patchedFunction(value):
     """patchedFunction docstring"""
@@ -35,13 +37,17 @@ class Foo(object):
 def patchedFooMethod(self):
     return "patchedFooMethod result"
 
+
 def my_appy_patch(scope, original, replacement):
     setattr(scope, original, replacement)
     return
 
+
 patchedAttribute = (1, 2)
 
+
 all_patches = []
+
 
 def monkeyPatchHandler(event):
     """Fake handler"""

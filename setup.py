@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from setuptools import setup, find_packages
-import os
+from setuptools import find_packages
+from setuptools import setup
+
 
 version = '1.0.2'
 
@@ -9,9 +10,9 @@ setup(
     version=version,
     description="Support for applying monkey patches late in the startup \
         cycle by using ZCML configuration actions",
-    long_description='\n'.join(
-        open("README.txt").read(),
-        open(os.path.join("docs", "HISTORY.txt")).read()),
+    long_description='\n'.join([
+        open("README.rst").read(),
+        open("CHANGES.rst").read()]),
     classifiers=[
         "Programming Language :: Python",
         ],

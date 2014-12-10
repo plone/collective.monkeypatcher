@@ -6,7 +6,7 @@ Changelog
 
 * Fix the case where the replacement object does not have a __module__
   attribute.
-  [mitchellrj]
+  [mitchellrj, fRiSi]
 
 1.0.1 - 2011-01-25
 ------------------

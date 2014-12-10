@@ -1,34 +1,39 @@
 <configure
-   xmlns="http://namespaces.zope.org/zope"
-   xmlns:monkey="http://namespaces.plone.org/monkey"
-   i18n_domain="collective.doesntmatter">
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:monkey="http://namespaces.plone.org/monkey">
 
   <include package="collective.monkeypatcher" file="meta.zcml" />
 
   <monkey:patch
-     class=".dummypatch.Dummy"
-     original="someMethod"
-     replacement=".dummypatch.patchedMethod"
-     docstringWarning="false"
-     />
+    class=".dummypatch.Dummy"
+    original="someMethod"
+    replacement=".dummypatch.patchedMethod"
+    docstringWarning="false"
+    />
 
   <monkey:patch
-     description="This is the reason of this monkey patch"
-     module=".dummypatch"
-     original="someFunction"
-     replacement=".dummypatch.patchedFunction"
-     />
+    description="This is the reason of this monkey patch"
+    module=".dummypatch"
+    original="someFunction"
+    replacement=".dummypatch.patchedFunction"
+    />
 
   <monkey:patch
-     class=".dummypatch.Foo"
-     original="someFooMethod"
-     replacement=".dummypatch.patchedFooMethod"
-     handler=".dummypatch.my_appy_patch"
-     docstringWarning="false"
-     />
+    class=".dummypatch.Foo"
+    original="someFooMethod"
+    replacement=".dummypatch.patchedFooMethod"
+    handler=".dummypatch.my_appy_patch"
+    docstringWarning="false"
+    />
+
+  <monkey:patch
+    class=".dummypatch.Foo"
+    original="config"
+    replacement=".dummypatch.patchedAttribute"
+    />
 
   <subscriber
-     for="collective.monkeypatcher.interfaces.IMonkeyPatchEvent"
-     handler=".dummypatch.monkeyPatchHandler" />
+    for="collective.monkeypatcher.interfaces.IMonkeyPatchEvent"
+    handler=".dummypatch.monkeyPatchHandler" />
 
 </configure>

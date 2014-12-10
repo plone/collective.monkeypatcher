@@ -1,10 +1,11 @@
 # -*- coding: utf-8
-# $Id$
 """Test cases"""
+
+from collective.monkeypatcher.interfaces import IMonkeyPatchEvent
 
 import common
 import dummypatch
-from collective.monkeypatcher.interfaces import IMonkeyPatchEvent
+
 
 class TestMonkeyPatcher(common.MonkeypatcherTestCase):
     """We test all in this class"""
@@ -30,7 +31,8 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         # Testing docstring monkeypatch note
         docstring = dummypatch.someFunction.__doc__
         self.failUnless(docstring.startswith("someFunction docstring"))
-        self.failUnless(docstring.endswith("'collective.monkeypatcher.tests.dummypatch.patchedFunction'"))
+        self.failUnless(docstring.endswith(
+            "'collective.monkeypatcher.tests.dummypatch.patchedFunction'"))
         return
 
     def test_patchWithHandler(self):
@@ -40,12 +42,20 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         self.failUnlessEqual(ob.someFooMethod(), "patchedFooMethod result")
         return
 
+    def test_patchWithBuiltin(self):
+        """see https://github.com/plone/collective.monkeypatcher/pull/2
+        """
+        ob = dummypatch.Foo()
+        self.failUnlessEqual(ob.config, (1, 2))
+        return
+
     def test_monkeyPatchEvent(self):
         """Do we notify ?"""
 
         events = dummypatch.all_patches
-        expected_keys = set(('description', 'original', 'replacement', 'zcml_info'))
-        self.failUnlessEqual(len(events), 3)
+        expected_keys = set(
+            ('description', 'original', 'replacement', 'zcml_info'))
+        self.failUnlessEqual(len(events), 4)
         for event in events:
 
             # Interface conformance

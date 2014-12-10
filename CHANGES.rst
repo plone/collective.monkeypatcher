@@ -1,11 +1,11 @@
 Changelog
 =========
 
-1.0.2 - unreleased
-------------------
+1.1 - 2014-12-10
+----------------
 
 * Fix the case where the replacement object does not have a __module__
-  attribute.
+  attribute (see https://github.com/plone/collective.monkeypatcher/pull/3).
   [mitchellrj, fRiSi]
 
 1.0.1 - 2011-01-25

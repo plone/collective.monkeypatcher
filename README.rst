@@ -66,7 +66,7 @@ Full list of options:
 - ``module`` The module being patched
 - ``handler`` A function to perform the patching. Must take three parameters: class/module, original (string), and replacement
 - ``original`` Method or function to replace
-- ``replacement`` Method to function to replace with
+- ``replacement`` Method or function to replace with
 - ``preservedoc`` Preserve docstrings?
 - ``preserveOriginal`` Preserve the original function so that it is reachable view prefix _old_. Only works for default handler
 - ``preconditions`` Preconditions (multiple, separated by space) to be satisified before applying this patch. Example: Products.LinguaPlone-=1.4.3 or Products.TextIndexNG3+=3.3.0

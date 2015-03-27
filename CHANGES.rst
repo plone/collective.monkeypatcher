@@ -4,6 +4,9 @@ Changelog
 1.1.1 - unreleased
 ------------------
 
+- Fix typo.
+  [gforcada]
+
 
 1.1 - 2014-12-10
 ----------------

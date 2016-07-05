@@ -4,7 +4,7 @@
 from zope.configuration.exceptions import ConfigurationError
 from zope.configuration.fields import GlobalObject, PythonIdentifier
 from zope.event import notify
-from zope.interface import Interface, implements
+from zope.interface import Interface, implementer
 from zope.schema import Int, Bool, Text
 
 import interfaces
@@ -131,12 +131,11 @@ def _preconditions_matching(preconditions):
         raise Exception('Unknown operator %s' % op)
 
 
+@implementer(interfaces.IMonkeyPatchEvent)
 class MonkeyPatchEvent(object):
     """Envent raised when a monkeypatch is applied
     see interfaces.IMonkeyPatchEvent
     """
-
-    implements(interfaces.IMonkeyPatchEvent)
 
     def __init__(self, mp_info):
         self.patch_info = mp_info

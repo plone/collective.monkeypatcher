@@ -63,7 +63,7 @@ name of the function to replace, and `replacement` is the replacement function.
 Full list of options:
 
 - ``class``  The class being patched
-- ``module`` The module being patched
+- ``module`` The module being patched (see `Patching module level functions`_)
 - ``handler`` A function to perform the patching. Must take three parameters: class/module, original (string), and replacement
 - ``original`` Method or function to replace
 - ``replacement`` Method or function to replace with
@@ -94,3 +94,33 @@ And add such Python::
       """see collective.monkeypatcher.interfaces.IMonkeyPatchEvent"""
       ...
 
+
+Patching module level functions
+===============================
+
+
+.. ATTENTION:: Be aware that patching module level functions will likely not work.
+
+
+If you want to patch the method `do_something` located in `patched.package.utils` which is imported in a package like this
+
+::
+
+    from patched.package.utils import do_something
+
+the reference to this function is loaded *before* `collective.monkeypatcher` will patch the original method.
+
+See also `this related thread on the plone mailing list <http://plone.293351.n2.nabble.com/Monkey-Patch-Module-Level-td7557725.html>`_.
+
+Workaround
+----------
+
+
+Do the patching in `__init__.py` of your package::
+
+    from patched.package import utils
+
+    def do_it_different():
+        return 'foo'
+
+    utils.do_something = do_it_different

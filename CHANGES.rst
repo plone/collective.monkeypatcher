@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Document possible problems when patching module level functions
+  [frisi]
 
 Bug fixes:
 

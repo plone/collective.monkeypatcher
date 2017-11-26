@@ -4,18 +4,10 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Document possible problems when patching module level functions
   [frisi]
-
-Bug fixes:
-
-- *add item here*
 
 
 1.1.2 (2016-08-10)

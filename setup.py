@@ -14,6 +14,7 @@ setup(
         open("README.rst").read(),
         open("CHANGES.rst").read()]),
     classifiers=[
+        "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",

@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix import for Python 3
+  [pbauer]
 
 
 1.1.3 (2017-11-26)

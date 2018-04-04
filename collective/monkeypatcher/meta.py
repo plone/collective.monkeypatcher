@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """ZCML handling, and applying patch"""
 
+from . import interfaces
 from zope.configuration.exceptions import ConfigurationError
 from zope.configuration.fields import GlobalObject, PythonIdentifier
 from zope.event import notify
 from zope.interface import Interface, implementer
 from zope.schema import Int, Bool, Text
 
-import interfaces
 import logging
 import pkg_resources
 import re

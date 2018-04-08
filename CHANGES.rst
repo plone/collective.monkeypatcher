@@ -4,14 +4,6 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix import for Python 3

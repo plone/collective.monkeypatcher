@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix import for Python 3 in the tests module
+  [ale-rt]
 
 
 1.1.4 (2018-04-08)

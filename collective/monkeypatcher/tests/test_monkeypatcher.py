@@ -1,10 +1,9 @@
 # -*- coding: utf-8
 """Test cases"""
 
+from . import common
+from . import dummypatch
 from collective.monkeypatcher.interfaces import IMonkeyPatchEvent
-
-import common
-import dummypatch
 
 
 class TestMonkeyPatcher(common.MonkeypatcherTestCase):

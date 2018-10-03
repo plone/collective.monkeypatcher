@@ -11,6 +11,7 @@ from zope.schema import Int, Bool, Text
 import logging
 import pkg_resources
 import re
+from six.moves import map
 
 
 log = logging.getLogger('collective.monkeypatcher')
@@ -111,8 +112,8 @@ def _preconditions_matching(preconditions):
 
         # fill versions - we assume having s/th like
         # 1.2.3a2 or 1.2a1 or 1.2.0 - look at regexp
-        p_v = map(int, filter(lambda x: x and int(x) or 0, version_r.search(version).groups()))
-        p_i = map(int, filter(lambda y: y and int(y) or 0, version_r.search(dp[0].version).groups()))
+        p_v = list(map(int, [x for x in version_r.search(version).groups() if x and int(x) or 0]))
+        p_i = list(map(int, [y for y in version_r.search(dp[0].version).groups() if y and int(y) or 0]))
 
         if not p_v or not p_i:
             log.error('Could not patch because version not recognized. Wanted: %s, Installed: %s' % (p_v, p_i))

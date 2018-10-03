@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Prepare for Python 2 / 3 compatibility
+  [frapell]
 
 
 1.1.5 (2018-06-18)

@@ -24,7 +24,7 @@ setup(
     keywords='zope monkey patch',
     author='Martin Aspeli',
     author_email='optilude@gmail.com',
-    url='https://pypi.org/project/collective.monkeypatcher',
+    url='https://github.com/plone/collective.monkeypatcher',
     license='BSD',
     packages=find_packages(),
     namespace_packages=['collective'],

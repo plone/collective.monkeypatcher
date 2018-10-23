@@ -15,4 +15,5 @@ class IMonkeyPatchEvent(Interface):
         * 'zcml_info': A text about the ZCML portion that made the patch
         * 'original': Dotted name of the original method/function.
         * 'replacement': Dotted name of the new function
-        """)
+        """,
+    )

@@ -24,87 +24,39 @@ class IMonkeyPatchDirective(Interface):
 
     class_ = GlobalObject(title=u"The class being patched", required=False)
     module = GlobalObject(title=u"The module being patched", required=False)
-    handler = GlobalObject(
-        title=u"A function to perform the patching.",
-        description=(
-            u"Must take three parameters: class/module, original "
-            u"(string), and replacement"
-        ),
-        required=False,
-    )
+    handler = GlobalObject(title=u"A function to perform the patching.",
+                           description=u"Must take three parameters: class/module, original (string), and replacement",
+                           required=False)
     original = PythonIdentifier(title=u"Method or function to replace")
     replacement = GlobalObject(title=u"Method to function to replace with")
-    preservedoc = Bool(
-        title=u"Preserve docstrings?", required=False, default=True
-    )
-    preserveOriginal = Bool(
-        title=(
-            u'Preserve the original function so that it is '
-            u'reachable view prefix _old_. Only works for def handler.'
-        ),
-        default=False,
-        required=False,
-    )
-    preconditions = Text(
-        title=(
-            u'Preconditions (multiple, separated by space) to be satisified '
-            u'before applying this patch. Example: Products.LinguaPlone<=1.4.3'
-        ),
-        required=False,
-        default=u'',
-    )
-    ignoreOriginal = Bool(
-        title=(
-            u"Ignore if the orginal function isn't present on the "
-            u"class/module being patched"
-        ),
-        default=False,
-    )
-    docstringWarning = Bool(
-        title=u"Add monkey patch warning in docstring",
-        required=False,
-        default=True,
-    )
-    description = Text(
-        title=u'Some comments about your monkey patch',
-        required=False,
-        default=u"(No comment)",
-    )
+    preservedoc = Bool(title=u"Preserve docstrings?", required=False, default=True)
+    preserveOriginal = Bool(title=u'Preserve the original function so that it is reachable view prefix _old_. Only works for def handler.',
+                            default=False, required=False)
+    preconditions = Text(title=u'Preconditions (multiple, separated by space) to be satisified before applying this patch. Example: Products.LinguaPlone<=1.4.3',
+                         required=False, default=u'')
+    ignoreOriginal = Bool(title=u"Ignore if the orginal function isn't present on the class/module being patched",
+                          default=False)
+    docstringWarning = Bool(title=u"Add monkey patch warning in docstring", required=False, default=True)
+    description = Text(title=u'Some comments about your monkey patch', required=False, default=u"(No comment)")
     order = Int(title=u"Execution order", required=False, default=1000)
 
 
-def replace(
-    _context,
-    original,
-    replacement,
-    class_=None,
-    module=None,
-    handler=None,
-    preservedoc=True,
-    docstringWarning=True,
-    description=u"(No comment)",
-    order=1000,
-    ignoreOriginal=False,
-    preserveOriginal=False,
-    preconditions=u'',
-):
+def replace(_context, original, replacement, class_=None, module=None, handler=None, preservedoc=True,
+            docstringWarning=True, description=u"(No comment)", order=1000, ignoreOriginal=False,
+            preserveOriginal=False, preconditions=u''):
     """ZCML directive handler"""
 
     if class_ is None and module is None:
         raise ConfigurationError(u"You must specify 'class' or 'module'")
     if class_ is not None and module is not None:
-        raise ConfigurationError(
-            u"You must specify one of 'class' or 'module', but not both."
-        )
+        raise ConfigurationError(u"You must specify one of 'class' or 'module', but not both.")
 
     scope = class_ or module
 
     to_be_replaced = getattr(scope, original, None)
 
     if to_be_replaced is None and not ignoreOriginal:
-        raise ConfigurationError(
-            "Original %s in %s not found" % (original, str(scope))
-        )
+        raise ConfigurationError("Original %s in %s not found" % (original, str(scope)))
 
     if preservedoc:
         try:
@@ -114,10 +66,7 @@ def replace(
 
     if docstringWarning:
         try:
-            patch_warning = "\n**Monkey patched by** '%s.%s'" % (
-                getattr(replacement, '__module__', ''),
-                replacement.__name__,
-            )
+            patch_warning = "\n**Monkey patched by** '%s.%s'" % (getattr(replacement, '__module__', ''), replacement.__name__)
             if replacement.__doc__ is None:
                 replacement.__doc__ = ''
             replacement.__doc__ += patch_warning
@@ -127,10 +76,7 @@ def replace(
     # check version
     if preconditions != u'':
         if not _preconditions_matching(preconditions):
-            log.info(
-                'Preconditions for patching scope %s not met (%s)!'
-                % (scope, preconditions)
-            )
+            log.info('Preconditions for patching scope %s not met (%s)!' % (scope, preconditions))
             return  # fail silently
 
     if handler is None:
@@ -143,27 +89,15 @@ def replace(
         discriminator=None,
         callable=_do_patch,
         order=order,
-        args=(
-            handler,
-            scope,
-            original,
-            replacement,
-            repr(_context.info),
-            description,
-        ),
-    )
+        args=(handler, scope, original, replacement, repr(_context.info), description))
     return
 
 
 def _preconditions_matching(preconditions):
     """ Returns True if preconditions matching """
 
-    matcher_r = re.compile(
-        r'^(.*?)([-+!=]+)(.*)$', re.DOTALL | re.IGNORECASE | re.MULTILINE
-    )
-    version_r = re.compile(
-        r'^([0-9]+)\.([0-9]+)\.?([0-9]?).*$', re.IGNORECASE | re.MULTILINE
-    )
+    matcher_r = re.compile(r'^(.*?)([-+!=]+)(.*)$', re.DOTALL | re.IGNORECASE | re.MULTILINE)
+    version_r = re.compile(r'^([0-9]+)\.([0-9]+)\.?([0-9]?).*$', re.IGNORECASE | re.MULTILINE)
     ev = pkg_resources.Environment()
 
     # split all preconds
@@ -178,32 +112,11 @@ def _preconditions_matching(preconditions):
 
         # fill versions - we assume having s/th like
         # 1.2.3a2 or 1.2a1 or 1.2.0 - look at regexp
-        p_v = list(
-            map(
-                int,
-                [
-                    x
-                    for x in version_r.search(version).groups()
-                    if x and int(x) or 0
-                ],
-            )
-        )
-        p_i = list(
-            map(
-                int,
-                [
-                    y
-                    for y in version_r.search(dp[0].version).groups()
-                    if y and int(y) or 0
-                ],
-            )
-        )
+        p_v = list(map(int, [x for x in version_r.search(version).groups() if x and int(x) or 0]))
+        p_i = list(map(int, [y for y in version_r.search(dp[0].version).groups() if y and int(y) or 0]))
 
         if not p_v or not p_i:
-            log.error(
-                'Could not patch because version not recognized. Wanted: %s, Installed: %s'
-                % (p_v, p_i)
-            )
+            log.error('Could not patch because version not recognized. Wanted: %s, Installed: %s' % (p_v, p_i))
             return False
 
         # compare operators - dumb if check - could be better
@@ -234,19 +147,12 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
     """Apply the monkey patch through preferred method"""
 
     try:
-        org_dotted_name = '%s.%s.%s' % (
-            scope.__module__,
-            scope.__name__,
-            original,
-        )
+        org_dotted_name = '%s.%s.%s' % (scope.__module__, scope.__name__, original)
     except AttributeError:
         org_dotted_name = '%s.%s' % (scope.__name__, original)
 
     try:
-        new_dotted_name = "%s.%s" % (
-            getattr(replacement, '__module__', ''),
-            replacement.__name__,
-        )
+        new_dotted_name = "%s.%s" % (getattr(replacement, '__module__', ''), replacement.__name__)
     except AttributeError:
         # builtins don't have __module__ and __name__
         new_dotted_name = str(replacement)
@@ -255,17 +161,13 @@ def _do_patch(handler, scope, original, replacement, zcml_info, description):
     if handler != _default_patch:
         handler_info = " using custom handler %s" % handler
 
-    log.debug(
-        "Monkey patching %s with %s" % (org_dotted_name, new_dotted_name)
-        + handler_info
-    )
+    log.debug("Monkey patching %s with %s" % (org_dotted_name, new_dotted_name,) + handler_info)
 
     info = {
         'description': description,
         'zcml_info': zcml_info,
         'original': org_dotted_name,
-        'replacement': new_dotted_name,
-    }
+        'replacement': new_dotted_name}
 
     notify(MonkeyPatchEvent(info))
     handler(scope, original, replacement)
@@ -288,3 +190,4 @@ def _default_preserve_handler(scope, original, replacement):
         setattr(scope, OLD_NAME, getattr(scope, original))
 
     setattr(scope, original, replacement)
+    return

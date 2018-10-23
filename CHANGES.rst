@@ -17,9 +17,6 @@ Bug fixes:
 - Prepare for Python 2 / 3 compatibility
   [frapell]
 
-- pep8, fix deprecation messages.
-  [jensens]
-
 
 1.1.5 (2018-06-18)
 ------------------

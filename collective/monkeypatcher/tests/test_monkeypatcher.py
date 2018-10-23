@@ -14,41 +14,38 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
 
         # Testing applyed patch
         ob = dummypatch.Dummy()
-        self.assertEqual(ob.someMethod(), "patched")
+        self.failUnlessEqual(ob.someMethod(), "patched")
 
         # Testing docstring preservation
         docstring = dummypatch.Dummy.someMethod.__doc__
-        self.assertEqual(docstring, "someMethod docstring")
+        self.failUnlessEqual(docstring, "someMethod docstring")
         return
 
     def test_patchedFunction(self):
         """We have our someFunction patched"""
 
         # Testing applyed patch
-        self.assertEqual(dummypatch.someFunction(1), 2)
+        self.failUnlessEqual(dummypatch.someFunction(1), 2)
 
         # Testing docstring monkeypatch note
         docstring = dummypatch.someFunction.__doc__
         self.failUnless(docstring.startswith("someFunction docstring"))
-        self.failUnless(
-            docstring.endswith(
-                "'collective.monkeypatcher.tests.dummypatch.patchedFunction'"
-            )
-        )
+        self.failUnless(docstring.endswith(
+            "'collective.monkeypatcher.tests.dummypatch.patchedFunction'"))
         return
 
     def test_patchWithHandler(self):
         """Patch applied with personal handler"""
 
         ob = dummypatch.Foo()
-        self.assertEqual(ob.someFooMethod(), "patchedFooMethod result")
+        self.failUnlessEqual(ob.someFooMethod(), "patchedFooMethod result")
         return
 
     def test_patchWithBuiltin(self):
         """see https://github.com/plone/collective.monkeypatcher/pull/2
         """
         ob = dummypatch.Foo()
-        self.assertEqual(ob.config, (1, 2))
+        self.failUnlessEqual(ob.config, (1, 2))
         return
 
     def test_monkeyPatchEvent(self):
@@ -56,9 +53,8 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
 
         events = dummypatch.all_patches
         expected_keys = set(
-            ('description', 'original', 'replacement', 'zcml_info')
-        )
-        self.assertEqual(len(events), 4)
+            ('description', 'original', 'replacement', 'zcml_info'))
+        self.failUnlessEqual(len(events), 4)
         for event in events:
 
             # Interface conformance
@@ -66,13 +62,12 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
 
             # Checking available infos
             info_keys = set(event.patch_info.keys())
-            self.assertEqual(info_keys, expected_keys)
+            self.failUnlessEqual(info_keys, expected_keys)
         return
 
 
 def test_suite():
     from unittest import TestSuite, makeSuite
-
     suite = TestSuite()
     suite.addTest(makeSuite(TestMonkeyPatcher))
     return suite

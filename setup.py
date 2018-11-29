@@ -20,7 +20,7 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
-        ],
+    ],
     keywords='zope monkey patch',
     author='Martin Aspeli',
     author_email='optilude@gmail.com',

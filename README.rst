@@ -2,6 +2,21 @@
 collective.monkeypatcher
 ========================
 
+.. image:: https://travis-ci.com/plone/collective.monkeypatcher.svg?branch=master
+    :target: https://travis-ci.com/plone/collective.monkeypatcher
+
+.. image:: https://coveralls.io/repos/github/zopefoundation/collective.monkeypatcher/badge.svg?branch=master
+        :target: https://coveralls.io/github/zopefoundation/collective.monkeypatcher?branch=master
+
+.. image:: https://img.shields.io/pypi/v/collective.monkeypatcher.svg
+        :target: https://pypi.org/project/collective.monkeypatcher/
+        :alt: Current version on PyPI
+
+.. image:: https://img.shields.io/pypi/pyversions/collective.monkeypatcher.svg
+        :target: https://pypi.org/project/collective.monkeypatcher/
+        :alt: Supported Python versions
+
+
 Introduction
 ============
 

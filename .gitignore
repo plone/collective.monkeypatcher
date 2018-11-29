@@ -1,3 +1,8 @@
 *.pyc
 *egg-info
-
+.coverage
+.installed.cfg
+.tox/
+bin/
+develop-eggs/
+htmlcov/

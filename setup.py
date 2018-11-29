@@ -35,4 +35,10 @@ setup(
         'setuptools',
         'six',
     ],
-    )
+    extras_require={
+        'test': [
+            'zope.component',
+            'zope.configuration',
+        ],
+    }
+)

@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.1.7 (unreleased)
-------------------
+1.2 (unreleased)
+----------------
 
 Breaking changes:
 
@@ -10,7 +10,7 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Update test infrastructure.
 
 Bug fixes:
 

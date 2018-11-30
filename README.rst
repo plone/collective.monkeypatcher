@@ -27,7 +27,51 @@ It uses the ZCML configuration machinery to ensure that patches are loaded
 "late" in the startup cycle, so that the original code has had time to be
 fully initialised and configured. This is similar to using the `initialize()`
 method in a product's __init__.py, except it does not require that the package
-be a full-blown Zope 2 product with a persistent Control_Panel entry.
+be a full-blown Zope product with a persistent Control_Panel entry.
+
+
+Installation
+============
+
+To install `collective.monkeypatcher` into the global Python environment
+(or a working environment), using a traditional Zope instance, you can do this:
+
+* When you're reading this you have probably already run
+  ``pip install collective.monkeypatcher``.
+
+* Create a file called ``collective.monkeypatcher-configure.zcml`` in the
+  ``/path/to/instance/etc/package-includes`` directory.  The file
+  should only contain this::
+
+    <include package="collective.monkeypatcher" />
+
+
+Alternatively, if you are using `zc.buildout` and the
+`plone.recipe.zope2instance`  recipe to manage your project, you can do this:
+
+* Add ``collective.monkeypatcher`` to the list of eggs to install, e.g.::
+
+    [buildout]
+    ...
+    eggs =
+        ...
+        collective.monkeypatcher
+
+* Tell the plone.recipe.zope2instance recipe to install a ZCML slug::
+
+    [instance]
+    recipe = plone.recipe.zope2instance
+    ...
+    zcml =
+        collective.monkeypatcher
+
+* Re-run buildout, e.g. with::
+
+    $ ./bin/buildout
+
+You can skip the ZCML slug if you are going to explicitly include the package
+from another package's configure.zcml file.
+
 
 Applying a monkey patch
 =======================

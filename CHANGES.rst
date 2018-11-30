@@ -10,6 +10,8 @@ Breaking changes:
 
 New features:
 
+- Include installation instructions in the README.
+
 - Update test infrastructure.
 
 Bug fixes:

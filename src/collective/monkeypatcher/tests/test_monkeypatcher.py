@@ -14,23 +14,23 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
 
         # Testing applyed patch
         ob = dummypatch.Dummy()
-        self.failUnlessEqual(ob.someMethod(), "patched")
+        self.assertEqual(ob.someMethod(), "patched")
 
         # Testing docstring preservation
         docstring = dummypatch.Dummy.someMethod.__doc__
-        self.failUnlessEqual(docstring, "someMethod docstring")
+        self.assertEqual(docstring, "someMethod docstring")
         return
 
     def test_patchedFunction(self):
         """We have our someFunction patched"""
 
         # Testing applyed patch
-        self.failUnlessEqual(dummypatch.someFunction(1), 2)
+        self.assertEqual(dummypatch.someFunction(1), 2)
 
         # Testing docstring monkeypatch note
         docstring = dummypatch.someFunction.__doc__
-        self.failUnless(docstring.startswith("someFunction docstring"))
-        self.failUnless(docstring.endswith(
+        self.assertTrue(docstring.startswith("someFunction docstring"))
+        self.assertTrue(docstring.endswith(
             "'collective.monkeypatcher.tests.dummypatch.patchedFunction'"))
         return
 
@@ -38,14 +38,14 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         """Patch applied with personal handler"""
 
         ob = dummypatch.Foo()
-        self.failUnlessEqual(ob.someFooMethod(), "patchedFooMethod result")
+        self.assertEqual(ob.someFooMethod(), "patchedFooMethod result")
         return
 
     def test_patchWithBuiltin(self):
         """see https://github.com/plone/collective.monkeypatcher/pull/2
         """
         ob = dummypatch.Foo()
-        self.failUnlessEqual(ob.config, (1, 2))
+        self.assertEqual(ob.config, (1, 2))
         return
 
     def test_monkeyPatchEvent(self):
@@ -54,15 +54,15 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         events = dummypatch.all_patches
         expected_keys = set(
             ('description', 'original', 'replacement', 'zcml_info'))
-        self.failUnlessEqual(len(events), 4)
+        self.assertEqual(len(events), 4)
         for event in events:
 
             # Interface conformance
-            self.failUnless(IMonkeyPatchEvent.providedBy(event))
+            self.assertTrue(IMonkeyPatchEvent.providedBy(event))
 
             # Checking available infos
             info_keys = set(event.patch_info.keys())
-            self.failUnlessEqual(info_keys, expected_keys)
+            self.assertEqual(info_keys, expected_keys)
         return
 
 

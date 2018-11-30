@@ -1,6 +1,4 @@
 include *.rst
-
-recursive-include docs *
-recursive-include collective *
-
-global-exclude *pyc
+include .coveragerc
+include tox.ini
+recursive-include src *.zcml

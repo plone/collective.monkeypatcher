@@ -1,0 +1,6 @@
+[run]
+branch = True
+source = collective.monkeypatcher
+
+[report]
+precision = 2

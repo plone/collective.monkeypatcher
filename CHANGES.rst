@@ -4,19 +4,11 @@ Changelog
 1.2 (unreleased)
 ----------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Include installation instructions in the README.
 
 - Update test infrastructure.
-
-Bug fixes:
-
-- *add item here*
 
 
 1.1.6 (2018-10-31)

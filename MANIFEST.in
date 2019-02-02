@@ -2,3 +2,6 @@ include *.rst
 include .coveragerc
 include tox.ini
 recursive-include src *.zcml
+include pyproject.toml
+recursive-exclude news *
+exclude news

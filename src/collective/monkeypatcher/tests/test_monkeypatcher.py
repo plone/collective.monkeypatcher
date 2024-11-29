@@ -67,7 +67,8 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestMonkeyPatcher))
-    return suite
+    import unittest
+
+    return unittest.TestSuite((
+        unittest.defaultTestLoader.loadTestsFromTestCase(TestMonkeyPatcher),
+    ))

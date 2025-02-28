@@ -221,7 +221,7 @@ class MonkeyPatchEvent:
 def _do_patch(handler, scope, original, replacement, zcml_info, description):
     """Apply the monkey patch through preferred method"""
     try:
-        org_dotted_name = "{}.{}.{}".format(scope.__module__, scope.__name__, original)
+        org_dotted_name = f"{scope.__module__}.{scope.__name__}.{original}"
     except AttributeError:
         org_dotted_name = f"{scope.__name__}.{original}"
 

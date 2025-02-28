@@ -57,7 +57,7 @@ class IMonkeyPatchDirective(Interface):
     )
     ignoreOriginal = Bool(
         title=(
-            "Ignore if the orginal function isn't present on the"
+            "Ignore if the original function isn't present on the"
             " class/module being patched"
         ),
         default=False,
@@ -208,7 +208,7 @@ def _preconditions_matching(preconditions):
 
 @implementer(interfaces.IMonkeyPatchEvent)
 class MonkeyPatchEvent:
-    """Envent raised when a monkeypatch is applied
+    """Event raised when a monkeypatch is applied
 
     see interfaces.IMonkeyPatchEvent
     """

@@ -11,7 +11,7 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
     def test_patchedClass(self):
         """We have our Dummy class's someMethod patched"""
 
-        # Testing applyed patch
+        # Testing applied patch
         ob = dummypatch.Dummy()
         self.assertEqual(ob.someMethod(), "patched")
 
@@ -23,7 +23,7 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
     def test_patchedFunction(self):
         """We have our someFunction patched"""
 
-        # Testing applyed patch
+        # Testing applied patch
         self.assertEqual(dummypatch.someFunction(1), 2)
 
         # Testing docstring monkeypatch note

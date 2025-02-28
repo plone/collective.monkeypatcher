@@ -1,12 +1,11 @@
 """Common resources for unit testing"""
 
-import unittest
-
-import zope.component
 from zope.component.testing import PlacelessSetup
 from zope.configuration.xmlconfig import XMLConfig
 
 import collective.monkeypatcher
+import unittest
+import zope.component
 
 
 class MonkeypatcherTestCase(PlacelessSetup, unittest.TestCase):

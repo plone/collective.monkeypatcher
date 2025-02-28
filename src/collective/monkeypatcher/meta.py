@@ -2,10 +2,14 @@
 
 from . import interfaces
 from zope.configuration.exceptions import ConfigurationError
-from zope.configuration.fields import GlobalObject, PythonIdentifier
+from zope.configuration.fields import GlobalObject
+from zope.configuration.fields import PythonIdentifier
 from zope.event import notify
-from zope.interface import Interface, implementer
-from zope.schema import Int, Bool, Text
+from zope.interface import implementer
+from zope.interface import Interface
+from zope.schema import Bool
+from zope.schema import Int
+from zope.schema import Text
 
 import logging
 import pkg_resources

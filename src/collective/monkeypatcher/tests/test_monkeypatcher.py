@@ -29,8 +29,11 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         # Testing docstring monkeypatch note
         docstring = dummypatch.someFunction.__doc__
         self.assertTrue(docstring.startswith("someFunction docstring"))
-        self.assertTrue(docstring.endswith(
-            "'collective.monkeypatcher.tests.dummypatch.patchedFunction'"))
+        self.assertTrue(
+            docstring.endswith(
+                "'collective.monkeypatcher.tests.dummypatch.patchedFunction'"
+            )
+        )
         return
 
     def test_patchWithHandler(self):
@@ -41,8 +44,7 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         return
 
     def test_patchWithBuiltin(self):
-        """see https://github.com/plone/collective.monkeypatcher/pull/2
-        """
+        """see https://github.com/plone/collective.monkeypatcher/pull/2"""
         ob = dummypatch.Foo()
         self.assertEqual(ob.config, (1, 2))
         return
@@ -51,8 +53,7 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         """Do we notify ?"""
 
         events = dummypatch.all_patches
-        expected_keys = {
-            'description', 'original', 'replacement', 'zcml_info'}
+        expected_keys = {"description", "original", "replacement", "zcml_info"}
         self.assertEqual(len(events), 4)
         for event in events:
 
@@ -68,6 +69,6 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
 def test_suite():
     import unittest
 
-    return unittest.TestSuite((
-        unittest.defaultTestLoader.loadTestsFromTestCase(TestMonkeyPatcher),
-    ))
+    return unittest.TestSuite(
+        (unittest.defaultTestLoader.loadTestsFromTestCase(TestMonkeyPatcher),)
+    )

@@ -6,7 +6,7 @@ class Dummy:
 
     def someMethod(self):
         """someMethod docstring"""
-        return"original"
+        return "original"
 
 
 def patchedMethod(self):

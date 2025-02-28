@@ -1,6 +1,7 @@
 """ZCML handling, and applying patch"""
 
 from . import interfaces
+from importlib.metadata import distributions
 from zope.configuration.exceptions import ConfigurationError
 from zope.configuration.fields import GlobalObject
 from zope.configuration.fields import PythonIdentifier
@@ -12,7 +13,6 @@ from zope.schema import Int
 from zope.schema import Text
 
 import logging
-import pkg_resources
 import re
 
 
@@ -153,7 +153,6 @@ def _preconditions_matching(preconditions):
     version_r = re.compile(
         r"^([0-9]+)\.([0-9]+)\.?([0-9]?).*$", re.IGNORECASE | re.MULTILINE
     )
-    ev = pkg_resources.Environment()
 
     # split all preconds
     for precond in preconditions.split():
@@ -161,7 +160,7 @@ def _preconditions_matching(preconditions):
         package, op, version = matcher_r.search(_p).groups()
 
         # first try to get package - if not found fail silently
-        dp = ev[package.strip()]
+        dp = [dist for dist in distributions() if dist.name.lower() == package.strip()]
         if not dp:
             return True
 

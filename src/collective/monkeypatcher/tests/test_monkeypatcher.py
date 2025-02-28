@@ -1,4 +1,3 @@
-# -*- coding: utf-8
 """Test cases"""
 
 from . import common
@@ -52,8 +51,8 @@ class TestMonkeyPatcher(common.MonkeypatcherTestCase):
         """Do we notify ?"""
 
         events = dummypatch.all_patches
-        expected_keys = set(
-            ('description', 'original', 'replacement', 'zcml_info'))
+        expected_keys = {
+            'description', 'original', 'replacement', 'zcml_info'}
         self.assertEqual(len(events), 4)
         for event in events:
 

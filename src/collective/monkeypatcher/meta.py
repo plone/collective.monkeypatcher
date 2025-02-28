@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ZCML handling, and applying patch"""
 
 from . import interfaces
@@ -11,7 +10,6 @@ from zope.schema import Int, Bool, Text
 import logging
 import pkg_resources
 import re
-from six.moves import map
 
 
 log = logging.getLogger('collective.monkeypatcher')
@@ -24,47 +22,47 @@ class IMonkeyPatchDirective(Interface):
     """
 
     class_ = GlobalObject(
-        title=u"The class being patched",
+        title="The class being patched",
         required=False)
     module = GlobalObject(
-        title=u"The module being patched",
+        title="The module being patched",
         required=False)
     handler = GlobalObject(
-        title=u"A function to perform the patching.",
+        title="A function to perform the patching.",
         description=(
-            u"Must take three parameters: class/module, original (string),"
-            u" and replacement"),
+            "Must take three parameters: class/module, original (string),"
+            " and replacement"),
         required=False)
-    original = PythonIdentifier(title=u"Method or function to replace")
-    replacement = GlobalObject(title=u"Method to function to replace with")
+    original = PythonIdentifier(title="Method or function to replace")
+    replacement = GlobalObject(title="Method to function to replace with")
     preservedoc = Bool(
-        title=u"Preserve docstrings?",
+        title="Preserve docstrings?",
         required=False,
         default=True)
     preserveOriginal = Bool(
-        title=(u"Preserve the original function so that it is reachable view"
-               u" prefix _old_. Only works for def handler."),
+        title=("Preserve the original function so that it is reachable view"
+               " prefix _old_. Only works for def handler."),
         default=False, required=False)
     preconditions = Text(
-        title=(u"Preconditions (multiple, separated by space) to be satisfied"
-               u" before applying this patch. Example:"
-               u" Products.LinguaPlone<=1.4.3"),
+        title=("Preconditions (multiple, separated by space) to be satisfied"
+               " before applying this patch. Example:"
+               " Products.LinguaPlone<=1.4.3"),
         required=False,
-        default=u"")
+        default="")
     ignoreOriginal = Bool(
-        title=(u"Ignore if the orginal function isn't present on the"
-               u" class/module being patched"),
+        title=("Ignore if the orginal function isn't present on the"
+               " class/module being patched"),
         default=False)
     docstringWarning = Bool(
-        title=u"Add monkey patch warning in docstring",
+        title="Add monkey patch warning in docstring",
         required=False,
         default=True)
     description = Text(
-        title=u'Some comments about your monkey patch',
+        title='Some comments about your monkey patch',
         required=False,
-        default=u"(No comment)")
+        default="(No comment)")
     order = Int(
-        title=u"Execution order",
+        title="Execution order",
         required=False,
         default=1000)
 
@@ -78,17 +76,17 @@ def replace(
         handler=None,
         preservedoc=True,
         docstringWarning=True,
-        description=u"(No comment)",
+        description="(No comment)",
         order=1000,
         ignoreOriginal=False,
         preserveOriginal=False,
-        preconditions=u''):
+        preconditions=''):
     """ZCML directive handler"""
     if class_ is None and module is None:
-        raise ConfigurationError(u"You must specify 'class' or 'module'")
+        raise ConfigurationError("You must specify 'class' or 'module'")
     if class_ is not None and module is not None:
         raise ConfigurationError(
-            u"You must specify one of 'class' or 'module', but not both.")
+            "You must specify one of 'class' or 'module', but not both.")
 
     scope = class_ or module
 
@@ -96,7 +94,7 @@ def replace(
 
     if to_be_replaced is None and not ignoreOriginal:
         raise ConfigurationError(
-            "Original %s in %s not found" % (original, str(scope)))
+            f"Original {original} in {str(scope)} not found")
 
     if preservedoc:
         try:
@@ -106,7 +104,7 @@ def replace(
 
     if docstringWarning:
         try:
-            patch_warning = "\n**Monkey patched by** '%s.%s'" % (
+            patch_warning = "\n**Monkey patched by** '{}.{}'".format(
                 getattr(replacement, '__module__', ''), replacement.__name__)
             if replacement.__doc__ is None:
                 replacement.__doc__ = ''
@@ -115,7 +113,7 @@ def replace(
             pass
 
     # check version
-    if preconditions != u'':
+    if preconditions != '':
         if not _preconditions_matching(preconditions):
             log.info('Preconditions for patching scope %s not met (%s)!',
                      scope, preconditions)
@@ -184,7 +182,7 @@ def _preconditions_matching(preconditions):
 
 
 @implementer(interfaces.IMonkeyPatchEvent)
-class MonkeyPatchEvent(object):
+class MonkeyPatchEvent:
     """Envent raised when a monkeypatch is applied
 
     see interfaces.IMonkeyPatchEvent
@@ -198,13 +196,13 @@ class MonkeyPatchEvent(object):
 def _do_patch(handler, scope, original, replacement, zcml_info, description):
     """Apply the monkey patch through preferred method"""
     try:
-        org_dotted_name = '%s.%s.%s' % (
+        org_dotted_name = '{}.{}.{}'.format(
             scope.__module__, scope.__name__, original)
     except AttributeError:
-        org_dotted_name = '%s.%s' % (scope.__name__, original)
+        org_dotted_name = f'{scope.__name__}.{original}'
 
     try:
-        new_dotted_name = "%s.%s" % (
+        new_dotted_name = "{}.{}".format(
             getattr(replacement, '__module__', ''), replacement.__name__)
     except AttributeError:
         # builtins don't have __module__ and __name__

@@ -1,8 +1,7 @@
-# -*- coding: utf-8
 """Class, function and patch for test cases"""
 
 
-class Dummy(object):
+class Dummy:
     """As said"""
 
     def someMethod(self):
@@ -25,7 +24,7 @@ def patchedFunction(value):
     return value * 2
 
 
-class Foo(object):
+class Foo:
     """As said"""
 
     config = (1, 2, 3)

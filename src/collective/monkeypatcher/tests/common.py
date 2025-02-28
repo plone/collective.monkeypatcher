@@ -1,4 +1,3 @@
-# -*- coding: utf-8
 """Common resources for unit testing"""
 
 import unittest

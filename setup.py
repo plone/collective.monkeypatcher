@@ -35,7 +35,10 @@ setup(
     zip_safe=False,
     install_requires=[
         "setuptools",
-        "six",
+        "zope.configuration",
+        "zope.event",
+        "zope.interface",
+        "zope.schema",
     ],
     extras_require={
         "test": [

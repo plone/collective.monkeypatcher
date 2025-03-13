@@ -1,7 +1,8 @@
 """ZCML handling, and applying patch"""
 
 from . import interfaces
-from importlib.metadata import distributions
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as distribution_version
 from zope.configuration.exceptions import ConfigurationError
 from zope.configuration.fields import GlobalObject
 from zope.configuration.fields import PythonIdentifier
@@ -50,7 +51,11 @@ class IMonkeyPatchDirective(Interface):
         title=(
             "Preconditions (multiple, separated by space) to be satisfied"
             " before applying this patch. Example:"
-            " Products.LinguaPlone<=1.4.3"
+            " Products.LinguaPlone-=1.4.3. This precondition is true if"
+            " the version of Products.LinguaPlone is less than or equal to 1.4.3."
+            " Note: if the package of the precondition is not available, the"
+            " precondition is true, which may be surprising. You can additionally use"
+            ' zcml:condition="installed Products.LinguaPlone".'
         ),
         required=False,
         default="",
@@ -158,10 +163,26 @@ def _preconditions_matching(preconditions):
     for precond in preconditions.split():
         _p = precond.strip()
         package, op, version = matcher_r.search(_p).groups()
+        package = package.strip()
 
         # first try to get package - if not found fail silently
-        dp = [dist for dist in distributions() if dist.name.lower() == package.strip()]
-        if not dp:
+        installed_version = None
+        try:
+            installed_version = distribution_version(package)
+        except PackageNotFoundError:
+            # Depending on the Python and setuptools versions, normalizing with
+            # underscores may help.  See:
+            # https://github.com/pypa/setuptools/blob/84b7b2a2f6eaf992aad6b5af923fa3f48ae7b566/setuptools/_vendor/importlib_metadata/__init__.py#L835-L839C16  # noqa: E501
+            package = re.sub(r"[-_.]+", "_", package).lower()
+            try:
+                installed_version = distribution_version(package)
+            except PackageNotFoundError:
+                pass
+
+        if not installed_version:
+            # The package is not found, so we cannot check the version condition.
+            # We default to returning True.  This may be surprising, but the user
+            # can additionally use zcml:condition="installed <package>".
             return True
 
         # fill versions - we assume having s/th like
@@ -177,7 +198,7 @@ def _preconditions_matching(preconditions):
                 int,
                 [
                     y
-                    for y in version_r.search(dp[0].version).groups()
+                    for y in version_r.search(installed_version).groups()
                     if y and int(y) or 0
                 ],
             )
@@ -193,6 +214,9 @@ def _preconditions_matching(preconditions):
             return False
 
         # compare operators - dumb if check - could be better
+        # Note:
+        # - p_v is the version parsed from the precondition
+        # - p_i is the installed version
         if op == "-=":
             return p_v >= p_i
         if op == "+=":

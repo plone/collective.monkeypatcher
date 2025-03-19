@@ -128,8 +128,8 @@ Full list of options:
 - ``replacement`` Method or function to replace with
 - ``preservedoc`` Preserve docstrings?
 - ``preserveOriginal`` Preserve the original function so that it is reachable view prefix _old_. Only works for default handler
-- ``preconditions`` Preconditions (multiple, separated by space) to be satisified before applying this patch. Example: Products.LinguaPlone-=1.4.3 or Products.TextIndexNG3+=3.3.0
-- ``ignoreOriginal`` Ignore if the orginal function isn't present on the class/module being patched
+- ``preconditions`` Preconditions (multiple, separated by space) to be satisfied before applying this patch. Example: Products.LinguaPlone-=1.4.3 or Products.TextIndexNG3+=3.3.0
+- ``ignoreOriginal`` Ignore if the original function isn't present on the class/module being patched
 - ``docstringWarning``  Add monkey patch warning in docstring
 - ``description``  Some comments about your monkey patch
 - ``order`` Execution order

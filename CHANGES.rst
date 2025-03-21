@@ -8,6 +8,28 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0 (2025-03-21)
+------------------
+
+Breaking changes:
+
+
+- Drop support for Plone 5.2 and for Python 3.8 and lower. @gforcada (#4126)
+
+
+Bug fixes:
+
+
+- Replace `pkg_resources` with `importlib.metadata` @gforcada @mauritsvanrees (#4126)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
 1.2.2 (2024-11-30)
 ------------------
 

@@ -51,6 +51,5 @@ all_patches = []
 def monkeyPatchHandler(event):
     """Fake handler"""
 
-    global all_patches
     all_patches.append(event)
     return

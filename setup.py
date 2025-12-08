@@ -1,8 +1,7 @@
-from setuptools import find_packages
 from setuptools import setup
 
 
-version = "2.0.2.dev0"
+version = "3.0.0.dev0"
 
 setup(
     name="collective.monkeypatcher",
@@ -16,25 +15,20 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
     ],
-    python_requires=">=3.9",
+    python_requires=">=3.10",
     keywords="zope monkey patch",
     author="Martin Aspeli",
     author_email="optilude@gmail.com",
     url="https://github.com/plone/collective.monkeypatcher",
     license="BSD",
-    packages=find_packages("src"),
-    package_dir={"": "src"},
-    namespace_packages=["collective"],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        "setuptools",
         "zope.configuration",
         "zope.event",
         "zope.interface",

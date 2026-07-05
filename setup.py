@@ -1,6 +1,5 @@
 from setuptools import setup
 
-
 version = "3.0.1.dev0"
 
 setup(

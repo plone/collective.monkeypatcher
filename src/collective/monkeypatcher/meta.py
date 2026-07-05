@@ -16,7 +16,6 @@ from zope.schema import Text
 import logging
 import re
 
-
 log = logging.getLogger("collective.monkeypatcher")
 
 

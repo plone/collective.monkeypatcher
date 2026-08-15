@@ -4,7 +4,54 @@
 [build-system]
 requires = ["setuptools>=68.2,<83", "wheel"]
 
+# START-MARKER-MANUAL-CONFIG
+# Anything from here until END-MARKER-MANUAL-CONFIG
+# will be kept by plone.meta
 
+[project]
+name = "collective.monkeypatcher"
+version = "3.0.1.dev0"
+description = "Support for applying monkey patches late in the startup cycle by using ZCML configuration actions"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+license = "BSD-3-Clause"
+dynamic = ["readme"]
+requires-python = ">=3.10"
+authors = [
+    {name = "Martin Aspeli",email = "optilude@gmail.com"},
+]
+maintainers = [
+    {name = "Plone Foundation and contributors",email = "plone-developers@lists.sourceforge.net"},
+]
+dependencies = [
+    "zope.configuration",
+    "zope.event",
+    "zope.interface",
+    "zope.schema",
+]
+keywords = ["zope", "monkey", "patch"]
+
+[project.optional-dependencies]
+test = [
+    "zope.component",
+    "zope.configuration",
+]
+
+[project.urls]
+Source = "https://github.com/plone/collective.monkeypatcher"
+Issues = "https://github.com/plone/Products.CMFPlone/issues"
+Changelog = "https://github.com/plone/collective.monkeypatcher/blob/master/CHANGES.rst"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.rst", "CHANGES.rst"]}
+# END-MARKER-MANUAL-CONFIG
 
 [tool.towncrier]
 directory = "news/"

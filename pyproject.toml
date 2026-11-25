@@ -15,15 +15,15 @@ description = "Support for applying monkey patches late in the startup cycle by 
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
 ]
 license = "BSD-3-Clause"
 dynamic = ["readme"]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [
     {name = "Martin Aspeli",email = "optilude@gmail.com"},
 ]
@@ -108,7 +108,7 @@ profile = "plone"
 ##
 
 [tool.black]
-target-version = ["py310"]
+target-version = ["py311"]
 
 ##
 # Add extra configuration options in .meta.toml:
@@ -177,6 +177,11 @@ pytest-plone = ['pytest', 'zope.pytestlayer', 'plone.testing', 'plone.app.testin
 #    "gitpython = ['git']",
 #    "pygithub = ['github']",
 #  ]
+#
+# The Zope and Plone mappings above are included by default. For a package
+# used outside the Zope world they are noise, and can be turned off with:
+#  [pyproject]
+#  plone_mappings = false
 ##
 
 [tool.check-manifest]
